@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاختبار القبلي: البرنامج التأسيسي في المهارات الرقمية</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen py-8 px-4 sm:px-6">
+
+    <div class="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-emerald-800 to-teal-900 text-white p-6 sm:p-8 text-center relative">
+            <span class="inline-block bg-emerald-700/50 text-emerald-100 text-xs px-3 py-1 rounded-full mb-3 font-medium">ورشة العمل التدريبية</span>
+            <h1 class="text-2xl sm:text-3xl font-black mb-2">الاختبار القبلي: البرنامج التأسيسي في المهارات الرقمية</h1>
+            <p class="text-emerald-100 text-sm max-w-xl mx-auto">إعداد وتقديم: د. أماني آل عنيزان | 3 أيام (15 ساعة تدريبية)</p>
+            
+            <div class="mt-6 bg-white/10 rounded-xl p-3 flex justify-around text-xs sm:text-sm font-medium">
+                <div>الأسئلة: <span class="font-bold">7</span> أسئلة معرفية</div>
+                <div>المدة التقديرية: 5 دقائق</div>
+                <div>الحالة: <span id="status-badge" class="text-amber-300 font-bold">قيد الإجابة</span></div>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-200 h-2">
+            <div id="progress-bar" class="bg-emerald-600 h-2 transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <!-- Main Form Container -->
+        <form id="quiz-form" class="p-6 sm:p-10 space-y-8">
+
+            <!-- Personal Info (Optional) -->
+            <div class="bg-slate-50 p-5 rounded-xl border border-slate-200/60 space-y-4">
+                <h3 class="font-bold text-slate-700 text-base flex items-center gap-2">
+                    <span class="bg-emerald-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs">👤</span>
+                    البيانات التعريفية <span class="text-xs font-normal text-slate-400">(اختياري تماماً)</span>
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">الاسم الثلاثي:</label>
+                        <input type="text" id="trainee-name" placeholder="اختياري" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">البريد الإلكتروني:</label>
+                        <input type="email" id="trainee-email" placeholder="اختياري" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">الإدارة / جهة العمل:</label>
+                        <input type="text" id="trainee-dept" placeholder="اختياري" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 1: Likert Scale Self-Assessment -->
+            <div class="space-y-6">
+                <div class="border-b pb-2">
+                    <h2 class="text-lg font-bold text-slate-800">أولاً: التقييم الذاتي للمهارات والممارسات</h2>
+                    <p class="text-xs text-slate-500 mt-1">اختر الدرجة التي تعبر عن مستوى ممارستك الحالية من (1 = ضعيف جداً / لا أمارس) إلى (5 = ممتاز جداً / أمارس بكفاءة).</p>
+                </div>
+                <div class="space-y-6" id="likert-container"></div>
+            </div>
+
+            <!-- SECTION 2: Knowledge & Practical Questions -->
+            <div class="space-y-6 pt-4">
+                <div class="border-b pb-2">
+                    <h2 class="text-lg font-bold text-slate-800">ثانيًا: أسئلة القياس المعرفي والمهاري</h2>
+                    <p class="text-xs text-slate-500 mt-1">اختبر معلوماتك حول محاور الورشة الأساسية.</p>
+                </div>
+                <div class="space-y-6" id="mcq-container"></div>
+            </div>
+
+            <!-- Expectations Section -->
+            <div class="space-y-3 pt-2">
+                <label class="block font-bold text-slate-800 text-sm">ما هي أبرز توقعاتك أو مهارة تود إتقانها بنهاية هذا البرنامج؟</label>
+                <textarea id="trainee-expectation" rows="3" placeholder="اكتب توقعاتك هنا (اختياري)..." class="w-full p-3 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-slate-50/50"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4 text-center">
+                <button type="button" onclick="calculateAndSubmit()" class="w-full sm:w-auto px-8 py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-lg transition transform active:scale-95 cursor-pointer text-base">
+                    إرسال الاختبار وعرض التقرير النهائي 📊
+                </button>
+            </div>
+
+        </form>
+
+        <!-- Results View -->
+        <div id="result-section" class="hidden p-6 sm:p-10 space-y-6 bg-slate-50 border-t border-slate-200">
+            <div class="text-center bg-white p-6 rounded-2xl shadow-sm border border-emerald-100">
+                <div class="text-4xl mb-2">🎉</div>
+                <h2 class="text-2xl font-black text-slate-800">تم إرسال تقييمك واجتياز الاختبار بنجاح!</h2>
+                <p class="text-slate-500 text-sm mt-1">إليك ملخص أدائك الفوري وتقييمك:</p>
+                
+                <div class="mt-4 inline-block bg-emerald-50 border border-emerald-200 px-6 py-3 rounded-xl">
+                    <span class="text-xs text-emerald-800 block">درجة الاختبار المعرفي:</span>
+                    <span id="score-display" class="text-3xl font-black text-emerald-700">0 / 7</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <h3 class="font-bold text-slate-800 text-base border-b pb-2">📋 ملخص تقرير المتدرب:</h3>
+                <div id="report-text-box" class="bg-slate-50 p-4 rounded-xl text-xs sm:text-sm text-slate-700 font-mono whitespace-pre-line border border-slate-200 leading-relaxed"></div>
+            </div>
+
+            <div class="flex flex-wrap gap-3 justify-center">
+                <button onclick="copyReport()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-sm font-bold rounded-xl shadow transition cursor-pointer">
+                    نسخ التقرير الكامل 📋
+                </button>
+                <button onclick="window.print()" class="px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold rounded-xl shadow transition cursor-pointer">
+                    طباعة التقرير / حفظ كـ PDF 🖨️
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const likertItems = [
+            { id: 'l1', text: '1. قدرتي على تحديد مستوى جاهزيتي الرقمية وربط المهارة بمهامي الوظيفية اليومية.' },
+            { id: 'l2', text: '2. مهارتي في تنظيم الملفات والمستندات وفق قاعدة التسمية الموحدة وتجنب الملفات العشوائية.' },
+            { id: 'l3', text: '3. مهاراتي في البحث الرقمي المتقدم والتحقق من موثوقية المعلومات عبر الأسئلة الخمسة.' },
+            { id: 'l4', text: '4. قدرتي على إعادة هيكلة وتنظيم جداول البيانات (Excel) وتجنب الأخطاء الشائعة كالدمج.' },
+            { id: 'l5', text: '5. مهاراتي اليومية في حماية البيانات، كشف رسائل التصيد الاحتيالي، وتفعيل المصادقة الثنائية.' },
+            { id: 'l6', text: '6. قدرتي على توظيف أدوات الذكاء الاصطناعي وكتابة الأوامر الفعالة (Prompt Engineering).' }
+        ];
+
+        const mcqItems = [
+            {
+                id: 'q1',
+                question: '1. ما هي القاعدة الموحدة الصحيحة لتسمية الملفات واكتشاف إصداره بسهولة والتي تم توضيحها في الورشة؟',
+                options: ['أ) نسخة نهائية أخير جداً.xlsx', 'ب) YYYY-MM-DD_Name_V01 (التاريخ + اسم المهمة + رقم الإصدار)', 'ج) الملف_الجديد_حق اليوم.xlsx', 'د) بدون قاعدة محددة حسب الرغبة'],
+                correct: 1
+            },
+            {
+                id: 'q2',
+                question: '2. أي مما يلي يمثل الترتيب الصحيح لمراحل تحويل البيانات إلى إجراء عملي فعال؟',
+                options: ['أ) إجراء ← رؤية ← معلومة ← بيانات', 'ب) بيانات (Data) ← معلومة (Information) ← رؤية (Insight) ← إجراء (Action)', 'ج) تخزين سحابي ← بريد إلكتروني ← اجتماع ← تقرير', 'د) ذكاء اصطناعي ← تصيد احتيالي ← كلمة مرور'],
+                correct: 1
+            },
+            {
+                id: 'q3',
+                question: '3. ماذا تعني هندسة الأوامر (Prompt Engineering) بشكل دقيق عند استخدام الذكاء الاصطناعي؟',
+                options: ['أ) برمجة خوادم الحاسب الآلي وتصميم التطبيقات بلغة بايثون', 'ب) مهارة صياغة الأوامر النصية بدقة (تحديد الدور، السياق، الهدف، وصيغة المخرج)', 'ج) حماية الحاسب من الفيروسات والبرمجيات الخبيثة', 'د) طريقة إرسال البريد الإلكتروني الرسمي للعملاء'],
+                correct: 1
+            },
+            {
+                id: 'q4',
+                question: '4. ما هي الخطوة الأولى والأساسية عند الشك في رسالة بريد إلكتروني تبدو مشبوهة أو تطلب تحديث بيانات حساسة؟',
+                options: ['أ) النقر الفوري على الرابط لمعرفة التفاصيل', 'ب) إعادة توجيه الرسالة لكل الزملاء', 'ج) التوقف، ثم التحقق (من عنوان المرسل والرابط بالكامل قبل أي إجراء)، ثم التصرف', 'د) تجاهل الأمر وحذف البريد دون إبلاغ قسم التقنية'],
+                correct: 2
+            },
+            {
+                id: 'q5',
+                question: '5. ما الفرق الجوهري بين المعرفة التقنية والمهارة الرقمية كما ورد في البرنامج؟',
+                options: ['أ) المعرفة التقنية هي معرفة وجود البرنامج، بينما المهارة الرقمية هي القدرة على إنجاز المهمة وحل المشكلة باستخدام التقنية', 'ب) لا توجد أي فروق جوهرية بينهما', 'ج) المهارة الرقمية تخص الأجهزة فقط والمعرفة تخص الإنترنت', 'د) المعرفة التقنية تقتصر على المدراء والتنفيذيين فقط'],
+                correct: 0
+            },
+            {
+                id: 'q6',
+                question: '6. عند التعامل مع جداول البيانات (Excel / Sheets)، ما الممارسة الخاطئة التي يجب تجنبها دائماً؟',
+                options: ['أ) جعل كل صف يمثل سجلاً واحداً مكتملًا', 'ب) توحيد صيغ إدخال البيانات وتاريخها', 'ج) دمج الخلايا (Merge) عشوائياً داخل نطاق جدول البيانات', 'د) احتواء كل خلية على قيمة واحدة واضحة'],
+                correct: 2
+            },
+            {
+                id: 'q7',
+                question: '7. لماذا يُعد تفعيل المصادقة الثنائية (2FA) خط دفاع أسياسي وحاسم للبيانات الوظيفية؟',
+                options: ['أ) لأنه يلغي الحاجة لكلمات المرور تماماً', 'ب) لأنه يمنع الدخول والحماية تظل فعالة حتى لو سُربت كلمة المرور لأنها تتطلب رمزاً إضافياً', 'ج) لأنه يسرع تصفح الإنترنت بضعفين', 'د) لأنه يخفي البريد الإلكتروني عن الآخرين'],
+                correct: 1
+            }
+        ];
+
+        // Render Likert
+        const likertContainer = document.getElementById('likert-container');
+        likertItems.forEach(item => {
+            let html = `<div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-3"><p class="text-sm font-bold text-slate-800">${item.text}</p><div class="grid grid-cols-5 gap-1 sm:gap-2 text-center">`;
+            const labels = ['ضعيف جداً (1)', 'ضعيف (2)', 'متوسط (3)', 'جيد (4)', 'ممتاز جداً (5)'];
+            for (let i = 1; i <= 5; i++) {
+                html += `<label class="cursor-pointer bg-slate-50 hover:bg-emerald-50 border border-slate-200 rounded-lg p-2 transition flex flex-col items-center justify-center"><input type="radio" name="${item.id}" value="${i}" class="text-emerald-600 focus:ring-emerald-500 mb-1" required><span class="text-[10px] sm:text-xs text-slate-600 font-medium">${labels[i-1]}</span></label>`;
+            }
+            html += `</div></div>`;
+            likertContainer.innerHTML += html;
+        });
+
+        // Render MCQ
+        const mcqContainer = document.getElementById('mcq-container');
+        mcqItems.forEach(q => {
+            let html = `<div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-xs space-y-3"><p class="text-sm font-bold text-slate-800">${q.question}</p><div class="space-y-2">`;
+            q.options.forEach((opt, oIndex) => {
+                html += `<label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition text-xs sm:text-sm"><input type="radio" name="${q.id}" value="${oIndex}" class="text-emerald-600 focus:ring-emerald-500" required><span class="text-slate-700">${opt}</span></label>`;
+            });
+            html += `</div></div>`;
+            mcqContainer.innerHTML += html;
+        });
+
+        function calculateAndSubmit() {
+            let answeredCount = 0;
+            [...likertItems, ...mcqItems].forEach(item => {
+                if (document.querySelector(`input[name="${item.id}"]:checked`)) answeredCount++;
+            });
+
+            if (answeredCount < (likertItems.length + mcqItems.length)) {
+                alert('الرجاء الإجابة على جميع الأسئلة ومقاييس التقييم قبل الإرسال.');
+                return;
+            }
+
+            let score = 0;
+            mcqItems.forEach(q => {
+                const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+                if (selected && parseInt(selected.value) === q.correct) score++;
+            });
+
+            const name = document.getElementById('trainee-name').value.trim() || 'متدرب غير مسجل الاسم';
+            const email = document.getElementById('trainee-email').value.trim() || 'غير متوفر';
+            const dept = document.getElementById('trainee-dept').value.trim() || 'غير محدد';
+            const expectation = document.getElementById('trainee-expectation').value.trim() || 'لا توجد ملاحظات';
+
+            let reportSummary = `--- تقرير الاختبار القبلي للمهارات الرقمية ---\n`;
+            reportSummary += `الاسم: ${name}\n`;
+            reportSummary += `البريد: ${email}\n`;
+            reportSummary += `الإدارة: ${dept}\n`;
+            reportSummary += `الدرجة المعرفية: ${score} من 7\n`;
+            reportSummary += `التوقعات: ${expectation}\n`;
+
+            document.getElementById('score-display').innerText = `${score} / 7`;
+            document.getElementById('report-text-box').innerText = reportSummary;
+            document.getElementById('status-badge').innerText = 'تم الانتهاء';
+            document.getElementById('status-badge').className = 'text-emerald-300 font-bold';
+            document.getElementById('progress-bar').style.width = '100%';
+
+            document.getElementById('quiz-form').style.display = 'none';
+            document.getElementById('result-section').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            const payload = {
+                name: name,
+                email: email,
+                department: dept,
+                score: `${score} / 7`,
+                report: reportSummary
+            };
+
+            // إرسال البيانات مباشرة إلى جدول Google Sheets الخاص بك
+            fetch('https://script.google.com/macros/s/AKfycbxOOQ0mYjBwiIVXpWpvgdmRAhmBocm-mziIVEEr2llkjwR-RZEVUUoA81gON-Cnnqxd/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(err => console.log('Sheets error:', err));
+        }
+
+        function copyReport() {
+            navigator.clipboard.writeText(document.getElementById('report-text-box').innerText).then(() => {
+                alert('تم نسخ التقرير بنجاح!');
+            });
+        }
+    </script>
+</body>
+</html>
